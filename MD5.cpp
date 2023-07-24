@@ -8,22 +8,21 @@ int main() {
     unsigned char data[1024];
 
     EVP_MD_CTX* mdctx;
-    unsigned char* md5_digest;
     unsigned int md5_digest_len = EVP_MD_size(EVP_md5());
 
-    if (inFile == NULL) {
+    if (inFile == nullptr) {
         printf("%s can't be opened.\n", filename);
         return 0;
     }
 
     mdctx = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(mdctx, EVP_md5(), NULL);
+    EVP_DigestInit_ex(mdctx, EVP_md5(), nullptr);
 
     while ((bytes = fread(data, 1, 1024, inFile)) != 0) {
         EVP_DigestUpdate(mdctx, data, bytes);
     }
 
-    md5_digest = (unsigned char*)OPENSSL_malloc(md5_digest_len);
+    unsigned char* md5_digest = static_cast<unsigned char*>(OPENSSL_malloc(md5_digest_len));
     EVP_DigestFinal_ex(mdctx, md5_digest, &md5_digest_len);
     EVP_MD_CTX_free(mdctx);
     for (int i = 0; i < md5_digest_len; i++) {
