@@ -33,6 +33,7 @@ int main() {
     for (int i = 0; i < md5_digest_len; i++) {
         printf("%02x", md5_digest[i]);
     }
+    std::cout << std::endl;
 
     // MD5 to string
     checksum.resize(md5_digest_len * 2);
